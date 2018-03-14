@@ -26,7 +26,8 @@ public class JAXBXMLToJava {
 
 
             // specify the location and name of xml file to be read
-            File XMLfile = new File("/Users/JacquesFourie/MATCProjects/enterprisejava/week8/soapactivity3/src/test/resources/response.xml");
+//            File XMLfile = new File("/Users/JacquesFourie/MATCProjects/enterprisejava/week8/soapactivity3/src/test/resources/response.xml");
+            File XMLfile = new File("src/test/resources/response.xml");
 
             // this will create Java object - dwmlType from the XML file
             DwmlType dwmlType = (DwmlType) jaxbUnmarshaller.unmarshal(XMLfile);
