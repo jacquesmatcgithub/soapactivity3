@@ -13,9 +13,11 @@ class JAXBXMLToJavaTest {
 
     @Test
     void main() {
+        logger.info("Hello");
+
         JAXBXMLToJava jaxbxmlToJava = new JAXBXMLToJava();
 
-        String testLatLon = "??";
+        String testLatLon = "43.0798,-89.3875";
 
         String returnedLatLon = jaxbxmlToJava.getLatLon();
 
