@@ -4,49 +4,77 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.io.StringReader;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
+
+/**
+ * The JAXBXMLToJava class contains methods that will:
+ * <ul>
+ * <li>Return the latitude & longitude from the xml file</li>
+ * <li>Return the version from the xml file</li>
+ * </ul>
+ */
 public class JAXBXMLToJava {
 
     private final Logger logger = LogManager.getLogger(this.getClass());
 
-    public String getLatLon() {
+    /**
+     * Gets latitude & longitude from the xml file
+     *
+     * @param xmlFile The file containing the xml
+     * @return the latitude & longitude from the xml file
+     */
+    public String getLatLon(String xmlFile) {
 
         String latLonList = "";
-        logger.info("Hello");
+
         try {
-
-            // create JAXB context and initializing Marshaller
-            JAXBContext jaxbContext = JAXBContext.newInstance(DwmlType.class);
-
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-
-
-            // specify the location and name of xml file to be read
-//            File XMLfile = new File("/Users/JacquesFourie/MATCProjects/enterprisejava/week8/soapactivity3/src/test/resources/response.xml");
-            File XMLfile = new File("src/test/resources/response.xml");
-
-            // this will create Java object - dwmlType from the XML file
-            DwmlType dwmlType = (DwmlType) jaxbUnmarshaller.unmarshal(XMLfile);
-
-
-            logger.info("DwmlType Version: " , dwmlType.getVersion());
-
+            DwmlType dwmlType = getDwmlType(xmlFile);
             latLonList = dwmlType.getLatLonList();
-
-            logger.info("Latlon:" , latLonList);
-
-
         } catch (JAXBException e) {
-            // some exception occured
-            e.printStackTrace();
+            logger.error("JAXBException:", e);
         }
 
         return latLonList;
     }
 
+
+    /**
+     * Gets the version from the xml file
+     *
+     * @param xmlFile The file containing the xml
+     * @return the version from the xml file
+     */
+    public String getVersion(String xmlFile) {
+
+        String version = "";
+
+        try {
+            DwmlType dwmlType = getDwmlType(xmlFile);
+            version = dwmlType.getVersion();
+        } catch (JAXBException e) {
+            logger.error("JAXBException:", e);
+        }
+
+        return version;
+    }
+
+
+    /**
+     * Return an unmarchalled xmls file as a DwmlType method.
+     *
+     * @return DwmlType
+     */
+    private DwmlType getDwmlType(String xmlFile) throws JAXBException {
+
+        // create JAXB context and initializing Marshaller
+        JAXBContext jaxbContext = JAXBContext.newInstance(DwmlType.class);
+        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+
+        // return unmarshalled xml file
+        return (DwmlType) jaxbUnmarshaller.unmarshal(new File(xmlFile));
+    }
 
 }
